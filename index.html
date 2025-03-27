@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium Cannabis Products - Buy the best quality weed online">
+    <title>Weed Store | Premium Cannabis Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartBadge();
+        });
+
+        function addToCart(productId, productName, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const existingItemIndex = cart.findIndex(item => item.productId === productId);
+
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                cart.push({ productId, productName, price, quantity: 1 });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            document.getElementById("cart-count").textContent = cart.length;
+        }
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <header class="bg-green-600 text-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Weed Store</h1>
+            <nav>
+                <ul class="flex space-x-6 text-lg">
+                    <li><a href="products.html" class="hover:text-gray-300">Products</a></li>
+                    <li>
+                        <a href="cart.html" class="hover:text-gray-300 relative">
+                            Cart <span id="cart-count" class="bg-red-500 text-white text-sm font-bold px-2 rounded-full">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-96 bg-cover bg-center" style="background-image: url('https://t3.ftcdn.net/jpg/02/60/33/42/360_F_260334226_GoVxOccWdMSDqu9KUQKKYThP9uJn7LGD.jpg');">
+        <div class="absolute inset-0 bg-green-900 bg-opacity-60 flex flex-col justify-center items-center text-white">
+            <h2 class="text-5xl font-bold">Premium Cannabis Products</h2>
+            <p class="text-xl mt-3">Shop the best quality weed online</p>
+            <a href="products.html" class="bg-green-500 hover:bg-green-400 px-8 py-3 mt-6 text-lg font-semibold rounded shadow-lg">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container mx-auto px-6 py-12">
+        <h2 class="text-4xl font-bold text-center mb-8">Featured Products</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            
+            <!-- OG Kush -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
+                <img src="https://images.leafly.com/flower-images/og-kush.png" alt="OG Kush" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800">OG Kush</h3>
+                    <p class="text-lg font-semibold text-green-600 mt-2">$25.00 / gram</p>
+                    <button onclick="addToCart('og-kush', 'OG Kush', 25.00)" class="mt-3 w-full bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Blue Dream -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
+                <img src="https://c8.alamy.com/comp/2FK66HP/close-up-of-flowering-cola-of-blue-dream-cannabis-strain-2FK66HP.jpg" alt="Blue Dream" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Blue Dream</h3>
+                    <p class="text-lg font-semibold text-green-600 mt-2">$22.00 / gram</p>
+                    <button onclick="addToCart('blue-dream', 'Blue Dream', 22.00)" class="mt-3 w-full bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Granddaddy Purple -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
+                <img src="https://theseedfair.com/wp-content/uploads/2017/05/xGranddaddy-Purple-rotated.jpeg.pagespeed.ic.lhVl3D0f5e.jpg" alt="Granddaddy Purple" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Granddaddy Purple</h3>
+                    <p class="text-lg font-semibold text-green-600 mt-2">$28.00 / gram</p>
+                    <button onclick="addToCart('granddaddy-purple', 'Granddaddy Purple', 28.00)" class="mt-3 w-full bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Sour Diesel -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
+                <img src="https://images.leafly.com/flower-images/sour-diesel.png" alt="Sour Diesel" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Sour Diesel</h3>
+                    <p class="text-lg font-semibold text-green-600 mt-2">$20.00 / gram</p>
+                    <button onclick="addToCart('sour-diesel', 'Sour Diesel', 20.00)" class="mt-3 w-full bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Gelato -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
+                <img src="https://images.leafly.com/flower-images/gelato.png" alt="Gelato" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Gelato</h3>
+                    <p class="text-lg font-semibold text-green-600 mt-2">$30.00 / gram</p>
+                    <button onclick="addToCart('gelato', 'Gelato', 30.00)" class="mt-3 w-full bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded">Add to Cart</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-green-600 text-white text-center py-6">
+        <p class="text-lg">&copy; 2025 Weed Store. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Products | Weed Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartTotal();
+    });
+
+    function addToCart(productId, productName, price, quantityInputId) {
+      const quantity = parseInt(document.getElementById(quantityInputId).value);
+      if (quantity < 1) {
+        alert("Please enter a valid quantity.");
+        return;
+      }
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const existingItemIndex = cart.findIndex(item => item.productId === productId);
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += quantity;
+      } else {
+        cart.push({ productId, productName, price, quantity });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartTotal();
+    }
+
+    function updateCartTotal() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      document.getElementById("cart-total").innerText = `$${total.toFixed(2)}`;
+    }
+
+    function proceedToPayment() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if (cart.length === 0) {
+        alert("Your cart is empty. Add some products first!");
+        return;
+      }
+
+      let totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      window.location.href = `payment.html?total=${totalAmount.toFixed(2)}`;
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <!-- Navbar -->
+  <header class="bg-green-600 text-white shadow-md">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Weed Store</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="index.html" class="hover:text-gray-200">Home</a></li>
+          <li><a href="cart.html" class="hover:text-gray-200">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Products Section -->
+  <section class="container mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold mb-6">Our Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+      <!-- OG Kush -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <img src="https://images.leafly.com/flower-images/og-kush.png" alt="OG Kush" class="w-full rounded-lg shadow-md mb-4">
+        <h2 class="text-2xl font-bold mb-2">OG Kush</h2>
+        <p class="text-gray-700 mb-2">Relaxing and euphoric effects.</p>
+        <p class="text-gray-900 text-lg font-semibold mb-2">$25.00 / gram</p>
+        <input type="number" id="quantity-og" min="1" value="1" class="border rounded-md px-3 py-1 w-20 mb-4">
+        <button onclick="addToCart('og-kush', 'OG Kush', 25.00, 'quantity-og')" class="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded font-semibold">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Sour Diesel -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <img src="https://greenthumbconsultingllc.com/cdn/shop/files/sour-diesel-1_918558.jpg?v=1727119775" alt="Sour Diesel" class="w-full rounded-lg shadow-md mb-4">
+        <h2 class="text-2xl font-bold mb-2">Sour Diesel</h2>
+        <p class="text-gray-700 mb-2">Energizing effects for daytime use.</p>
+        <p class="text-gray-900 text-lg font-semibold mb-2">$20.00 / gram</p>
+        <input type="number" id="quantity-sd" min="1" value="1" class="border rounded-md px-3 py-1 w-20 mb-4">
+        <button onclick="addToCart('sour-diesel', 'Sour Diesel', 20.00, 'quantity-sd')" class="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded font-semibold">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Blue Dream -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQczVGJvgUATYTn1eshuUXw1VqJHbJwRawFuQ&s" alt="Blue Dream" class="w-full rounded-lg shadow-md mb-4">
+        <h2 class="text-2xl font-bold mb-2">Blue Dream</h2>
+        <p class="text-gray-700 mb-2">Sweet berry flavor, hybrid strain.</p>
+        <p class="text-gray-900 text-lg font-semibold mb-2">$18.00 / gram</p>
+        <input type="number" id="quantity-bd" min="1" value="1" class="border rounded-md px-3 py-1 w-20 mb-4">
+        <button onclick="addToCart('blue-dream', 'Blue Dream', 18.00, 'quantity-bd')" class="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded font-semibold">
+          Add to Cart
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Proceed to Payment -->
+  <div class="fixed bottom-5 right-5 bg-green-700 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow-lg text-lg font-semibold cursor-pointer flex items-center space-x-2"
+       onclick="proceedToPayment()">
+    <span>Proceed to Payment</span>
+    <span class="bg-white text-green-700 px-3 py-1 rounded-md font-bold" id="cart-total">$0.00</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-green-800 text-white py-4 mt-10">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2025 Weed Store. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

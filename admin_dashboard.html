@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Weed Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadOrders();
+            loadProducts();
+        });
+
+        // Load Orders (Receipts)
+        function loadOrders() {
+            let orders = JSON.parse(localStorage.getItem("sales")) || [];
+            let orderContainer = document.getElementById("order-receipts");
+            let totalRevenue = 0;
+            orderContainer.innerHTML = "";
+
+            if (orders.length === 0) {
+                orderContainer.innerHTML = "<p class='text-gray-600 text-center py-4'>No orders yet.</p>";
+                document.getElementById("total-revenue").textContent = "$0.00";
+                return;
+            }
+
+            orders.forEach((order, index) => {
+                totalRevenue += parseFloat(order.total);
+                let productList = order.products.map(item => `<p>${item.quantity}x ${item.productName} - $${(item.price * item.quantity).toFixed(2)}</p>`).join("");
+
+                orderContainer.innerHTML += `
+                    <div class="bg-white p-6 rounded-lg shadow-md mt-4">
+                        <h3 class="text-xl font-bold text-green-600">🧾 Order Receipt</h3>
+                        <p class="text-gray-700"><strong>📅 Order Time:</strong> ${order.orderTime}</p>
+                        <p class="text-gray-700"><strong>📲 WhatsApp Contact:</strong> ${order.customer}</p>
+                        <p class="text-gray-700"><strong>💳 Payment Method:</strong> ${order.paymentMethod}</p>
+                        <div class="mt-4 bg-gray-50 p-4 rounded-lg shadow-md">
+                            <h4 class="font-bold">🛍️ Ordered Products</h4>
+                            ${productList}
+                        </div>
+                        <p class="text-xl font-bold text-green-700 mt-4">Total: $${order.total}</p>
+                        <button onclick="deleteOrder(${index})" class="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Delete Order</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById("total-revenue").textContent = `$${totalRevenue.toFixed(2)}`;
+        }
+
+        // Load Products
+        function loadProducts() {
+            let products = JSON.parse(localStorage.getItem("products")) || [];
+            let productContainer = document.getElementById("product-list");
+            productContainer.innerHTML = "";
+
+            if (products.length === 0) {
+                productContainer.innerHTML = "<p class='text-gray-600 text-center py-4'>No products added yet.</p>";
+                return;
+            }
+
+            products.forEach((product, index) => {
+                productContainer.innerHTML += `
+                    <div class="bg-white p-4 rounded shadow-md flex justify-between items-center">
+                        <p class="font-semibold">${product.name} - $${product.price}</p>
+                        <button onclick="deleteProduct(${index})" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Add Product
+        function addProduct() {
+            let name = document.getElementById("product-name").value.trim();
+            let price = document.getElementById("product-price").value.trim();
+
+            if (name === "" || price === "") {
+                alert("Please enter a valid product name and price.");
+                return;
+            }
+
+            let products = JSON.parse(localStorage.getItem("products")) || [];
+            products.push({ name, price });
+            localStorage.setItem("products", JSON.stringify(products));
+
+            document.getElementById("product-name").value = "";
+            document.getElementById("product-price").value = "";
+            loadProducts();
+        }
+
+        // Delete Product
+        function deleteProduct(index) {
+            let products = JSON.parse(localStorage.getItem("products")) || [];
+            products.splice(index, 1);
+            localStorage.setItem("products", JSON.stringify(products));
+            loadProducts();
+        }
+
+        // Delete Order
+        function deleteOrder(index) {
+            let orders = JSON.parse(localStorage.getItem("sales")) || [];
+            orders.splice(index, 1);
+            localStorage.setItem("sales", JSON.stringify(orders));
+            loadOrders();
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Admin Navbar -->
+    <header class="bg-green-600 text-white py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+            <a href="index.html" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded">Back to Store</a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Sales Overview -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-3xl font-bold mb-4">📈 Sales Overview</h2>
+            <p class="text-xl font-semibold">Total Revenue: <span id="total-revenue" class="text-green-600">$0.00</span></p>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="bg-white p-6 mt-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">🛒 Order Receipts</h2>
+            <div id="order-receipts"></div>
+        </div>
+
+        <!-- Add Products -->
+        <div class="bg-white p-6 mt-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">➕ Add New Product</h2>
+            <input type="text" id="product-name" placeholder="Product Name" class="w-full p-3 border rounded mb-4">
+            <input type="number" id="product-price" placeholder="Product Price" class="w-full p-3 border rounded mb-4">
+            <button onclick="addProduct()" class="w-full bg-green-600 hover:bg-green-500 text-white p-3 rounded">Add Product</button>
+        </div>
+
+        <!-- Product List -->
+        <div class="bg-white p-6 mt-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">📦 Product List</h2>
+            <div id="product-list" class="space-y-4"></div>
+        </div>
+    </div>
+
+</body>
+</html>

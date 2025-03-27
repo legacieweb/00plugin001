@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Order | Weed Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Get total price from URL parameter
+      const params = new URLSearchParams(window.location.search);
+      const totalAmount = params.get("total") || "0.00";
+      
+      document.getElementById("total").textContent = `$${totalAmount}`;
+    });
+
+    function showPaymentOptions() {
+      const whatsappNumber = document.getElementById("whatsapp").value.trim();
+      if (!whatsappNumber) {
+        alert("Please enter your WhatsApp number.");
+        return;
+      }
+
+      // Show the payment options modal
+      document.getElementById("paymentModal").classList.remove("hidden");
+    }
+
+    function selectPaymentMethod(method) {
+      document.getElementById("selectedPayment").textContent = `Payment Method: ${method}`;
+      document.getElementById("paymentModal").classList.add("hidden");
+      placeOrder(method);
+    }
+
+    function placeOrder(paymentMethod) {
+      const whatsappNumber = document.getElementById("whatsapp").value.trim();
+      const totalAmount = document.getElementById("total").textContent;
+      const orderTime = new Date().toLocaleString();
+
+      // Save order details to sessionStorage for receipt
+      sessionStorage.setItem("whatsappNumber", whatsappNumber);
+      sessionStorage.setItem("totalAmount", totalAmount);
+      sessionStorage.setItem("orderTime", orderTime);
+      sessionStorage.setItem("paymentMethod", paymentMethod);
+
+      // Redirect to order confirmation page
+      window.location.href = "order-confirmation.html";
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <!-- Header -->
+  <header class="bg-green-600 text-white shadow-md">
+    <div class="container mx-auto px-4 py-4">
+      <h1 class="text-2xl font-bold">Confirm Your Order</h1>
+    </div>
+  </header>
+
+  <!-- Order Section -->
+  <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md mt-6">
+    <h2 class="text-3xl font-bold mb-6">Order Summary</h2>
+    <p class="font-semibold text-lg">Total Amount: <span id="total" class="text-green-600 font-bold"></span></p>
+
+    <!-- WhatsApp Number Input -->
+    <h2 class="text-2xl font-bold mt-8">Enter Your WhatsApp Number</h2>
+    <input type="tel" id="whatsapp" placeholder="e.g. +1234567890"
+      class="w-full mt-4 px-4 py-2 border rounded-md" required>
+
+    <!-- Buttons Section -->
+    <div class="flex flex-col sm:flex-row justify-between mt-6 space-y-4 sm:space-y-0">
+      <!-- Back to Cart Button -->
+      <a href="cart.html"
+        class="w-full sm:w-auto text-center bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold">
+        ⬅️ Back to Cart
+      </a>
+
+      <!-- Order Now Button -->
+      <button onclick="showPaymentOptions()"
+        class="w-full sm:w-auto bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg font-semibold">
+        Order Now
+      </button>
+    </div>
+
+    <p id="selectedPayment" class="mt-4 text-gray-700 text-lg font-semibold"></p>
+  </div>
+
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
+      <h2 class="text-2xl font-bold mb-4">Select Payment Method</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <button onclick="selectPaymentMethod('CashApp')" class="bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 rounded-md">CashApp</button>
+        <button onclick="selectPaymentMethod('PayPal')" class="bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded-md">PayPal</button>
+        <button onclick="selectPaymentMethod('Skrill')" class="bg-purple-500 hover:bg-purple-400 text-white px-4 py-2 rounded-md">Skrill</button>
+        <button onclick="selectPaymentMethod('Apple Pay')" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Apple Pay</button>
+      </div>
+      <button onclick="document.getElementById('paymentModal').classList.add('hidden')"
+        class="mt-4 text-red-500 hover:underline">Cancel</button>
+    </div>
+  </div>
+
+</body>
+</html>

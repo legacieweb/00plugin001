@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation | Weed Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Retrieve order details from sessionStorage
+      const whatsappNumber = sessionStorage.getItem("whatsappNumber");
+      const totalAmount = sessionStorage.getItem("totalAmount");
+      const orderTime = sessionStorage.getItem("orderTime");
+      const paymentMethod = sessionStorage.getItem("paymentMethod") || "Not Selected";
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Display order details
+      document.getElementById("order-time").textContent = orderTime;
+      document.getElementById("whatsapp-number").textContent = whatsappNumber;
+      document.getElementById("order-total").textContent = totalAmount;
+      document.getElementById("payment-method").textContent = paymentMethod;
+
+      // Display ordered products
+      const orderItemsContainer = document.getElementById("order-items");
+      if (cart.length === 0) {
+        orderItemsContainer.innerHTML = "<p class='text-gray-600'>No products ordered.</p>";
+      } else {
+        cart.forEach(item => {
+          orderItemsContainer.innerHTML += `
+            <div class="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+              <p>${item.quantity}x ${item.productName}</p>
+              <p class="text-gray-700">$${(item.price * item.quantity).toFixed(2)}</p>
+            </div>
+          `;
+        });
+      }
+
+      // Clear the cart after confirming the order
+      localStorage.removeItem("cart");
+
+      // Redirect to home page after 5 minutes (300000 milliseconds)
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 300000);
+    });
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center p-6">
+
+  <!-- Order Confirmation Box -->
+  <div class="bg-white p-8 rounded-lg shadow-xl max-w-lg text-center border-t-8 border-green-600">
+    <h2 class="text-3xl font-bold text-green-600">✅ Order Submitted Successfully!</h2>
+    <p class="text-lg mt-2 text-gray-700">Thank you for your order! 🎉</p>
+    <p class="text-lg mt-2 text-gray-600">The seller will contact you shortly on WhatsApp to confirm your payment and start the delivery process.</p>
+
+    <!-- Receipt Details -->
+    <div class="mt-6 text-left bg-gray-50 p-4 rounded-lg shadow-md">
+      <h3 class="text-xl font-bold">🧾 Order Receipt</h3>
+      <p class="mt-2"><strong>📅 Order Time:</strong> <span id="order-time"></span></p>
+      <p class="mt-1"><strong>📲 WhatsApp Contact:</strong> <span id="whatsapp-number"></span></p>
+      <p class="mt-1"><strong>💳 Payment Method:</strong> <span id="payment-method" class="text-blue-500 font-semibold"></span></p>
+    </div>
+
+    <!-- Ordered Products -->
+    <div class="mt-6 text-left bg-white p-4 rounded-lg shadow-md">
+      <h3 class="text-xl font-bold">🛍️ Ordered Products</h3>
+      <div id="order-items" class="mt-2 space-y-2"></div>
+    </div>
+
+    <!-- Total Price -->
+    <div class="mt-6 bg-green-100 p-4 rounded-lg shadow-md">
+      <h3 class="text-xl font-bold text-green-600">Total Amount</h3>
+      <p id="order-total" class="text-2xl font-bold text-green-700"></p>
+    </div>
+
+    <!-- Encouraging Note -->
+    <p class="mt-6 text-green-600 font-semibold">Sit back and relax! 🌿 Your order is being processed, and you’ll be notified soon. 🚀</p>
+
+    <!-- Countdown Timer -->
+    <p class="mt-6 text-gray-600">Redirecting to home page in <span id="countdown">300</span> seconds...</p>
+
+    <!-- Continue Shopping Button -->
+    <a href="index.html" class="mt-6 inline-block bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300">
+      ⬅️ Continue Shopping
+    </a>
+  </div>
+
+  <script>
+    let countdown = 300; // 5 minutes
+    const countdownElement = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
+      countdown--;
+      countdownElement.textContent = countdown;
+
+      if (countdown <= 0) {
+        clearInterval(timer); // Stop countdown when reaching 0
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>

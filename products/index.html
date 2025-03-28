@@ -44,7 +44,7 @@
       }
 
       let totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      window.location.href = `payment.html?total=${totalAmount.toFixed(2)}`;
+      window.location.href = `../payment?total=${totalAmount.toFixed(2)}`;
     }
   </script>
 </head>
@@ -56,8 +56,8 @@
       <h1 class="text-2xl font-bold">Weed Store</h1>
       <nav>
         <ul class="flex space-x-4">
-          <li><a href="index.html" class="hover:text-gray-200">Home</a></li>
-          <li><a href="cart.html" class="hover:text-gray-200">Cart</a></li>
+          <li><a href="https://plugin.iyonicorp.com/" class="hover:text-gray-200">Home</a></li>
+          <li><a href="../cart" class="hover:text-gray-200">Cart</a></li>
         </ul>
       </nav>
     </div>
@@ -114,10 +114,50 @@
     <span class="bg-white text-green-700 px-3 py-1 rounded-md font-bold" id="cart-total">$0.00</span>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-green-800 text-white py-4 mt-10">
-    <div class="container mx-auto text-center">
-      <p>&copy; 2025 Weed Store. All rights reserved.</p>
+  <style>
+    .glitter-text {
+background: linear-gradient(45deg, #ffcc00, #ff66ff, #00ccff, #ffcc00);
+background-size: 400% 400%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: glitter 4s infinite;
+}
+
+@keyframes glitter {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+/* Shaking Logo Animation */
+.shaking-logo {
+animation: shake 1s infinite ease-in-out;
+}
+
+@keyframes shake {
+0%, 100% { transform: rotate(0deg); }
+10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); }
+20%, 40%, 60%, 80% { transform: rotate(2deg); }
+}
+</style>
+
+
+<!-- Footer -->
+ <!-- Footer -->
+ <footer class="bg-green-600 text-white text-center py-3 fade-in">
+    <div class="container mx-auto flex flex-col items-center px-6">
+  
+        <!-- Copyright -->
+        <p class="text-gray-900 text-sm mt-2">© 2025 Weed store. All Rights Reserved.</p>
+  
+             <!-- Powered by Legacie with Shaking Logo -->
+             <div class="flex items-center space-x-2 mt-3">
+              <a href="https://iyonicweb.iyonicorp.com/">
+                <img src="https://iyonicweb.iyonicorp.com/download-removebg-preview.png" alt="Legacie Web Logo" class="h-10 md:h-12 shaking-logo">
+              </a>
+              <a href="https://iyonicweb.iyonicorp.com/" class="footer-link"> <span class="glitter-text">Designed by iyonic web</span></a>          </div>
+            </div>
+  
     </div>
   </footer>
 

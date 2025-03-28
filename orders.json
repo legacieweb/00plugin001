@@ -1,0 +1,404 @@
+[
+  {
+    "fullName": "gg",
+    "email": "andreawellsin@gmail.com",
+    "phone": "bb",
+    "address": "hh",
+    "age": "456",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "blue-dream",
+        "productName": "Blue Dream",
+        "price": 22,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 22,
+    "orderDate": "2025-03-28T13:07:39.132Z"
+  },
+  {
+    "fullName": "g",
+    "email": "andrea@gmail.com",
+    "phone": "w",
+    "address": "w",
+    "age": "22",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "og-kush",
+        "productName": "OG Kush",
+        "price": 25,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 25,
+    "orderDate": "2025-03-28T13:39:09.721Z"
+  },
+  {
+    "fullName": "dead",
+    "email": "andrea@gmail.com",
+    "phone": "123",
+    "address": "55",
+    "age": "23",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "og-kush",
+        "productName": "OG Kush",
+        "price": 25,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 25,
+    "orderDate": "2025-03-28T13:42:45.352Z"
+  },
+  {
+    "fullName": "dead",
+    "email": "iyonicfashion@gmail.com",
+    "phone": "1234",
+    "address": "123",
+    "age": "19",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "blue-dream",
+        "productName": "Blue Dream",
+        "price": 22,
+        "quantity": 2
+      },
+      {
+        "productId": "og-kush",
+        "productName": "OG Kush",
+        "price": 25,
+        "quantity": 1
+      },
+      {
+        "productId": "granddaddy-purple",
+        "productName": "Granddaddy Purple",
+        "price": 28,
+        "quantity": 1
+      },
+      {
+        "productId": "sour-diesel",
+        "productName": "Sour Diesel",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "productId": "gelato",
+        "productName": "Gelato",
+        "price": 30,
+        "quantity": 1
+      },
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 4
+      }
+    ],
+    "totalAmount": 159,
+    "orderDate": "2025-03-28T13:44:16.599Z"
+  },
+  {
+    "fullName": "evans",
+    "email": "evansmwirigi@me.com",
+    "phone": "1234567890",
+    "address": "qwertyuiopplkjhgfdsazvbnm",
+    "age": "22",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 3
+      }
+    ],
+    "totalAmount": 9,
+    "orderDate": "2025-03-28T14:20:08.335Z"
+  },
+  {
+    "fullName": "dead",
+    "email": "andrea@gmail.com",
+    "phone": "4567",
+    "address": "4567",
+    "age": "66",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 3,
+    "orderDate": "2025-03-28T14:36:39.029Z"
+  },
+  {
+    "fullName": "22",
+    "email": "andrea@gmail.com2",
+    "phone": "22",
+    "address": "22",
+    "age": "22",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 3,
+    "orderDate": "2025-03-28T14:45:08.513Z"
+  },
+  {
+    "fullName": "ww",
+    "email": "iyonicfashion@gmail.comw",
+    "phone": "w",
+    "address": "22",
+    "age": "22",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 3,
+    "orderDate": "2025-03-28T14:46:48.450Z"
+  },
+  {
+    "fullName": "murimi",
+    "email": "legaciebeauty@gmail.com",
+    "phone": "1234567890",
+    "address": "1234567890",
+    "age": "1234567890",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 11
+      }
+    ],
+    "totalAmount": 33,
+    "orderDate": "2025-03-28T15:22:54.498Z"
+  },
+  {
+    "fullName": "1234567890",
+    "email": "andrea@gmail.com",
+    "phone": "12345678",
+    "address": "234567",
+    "age": "234567",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "gelato",
+        "productName": "Gelato",
+        "price": 30,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 30,
+    "orderDate": "2025-03-28T15:26:52.447Z"
+  },
+  {
+    "fullName": "12345689",
+    "email": "andreawellsin@gmail.com",
+    "phone": "234567",
+    "address": "34567",
+    "age": "4567",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "sour-diesel",
+        "productName": "Sour Diesel",
+        "price": 20,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 20,
+    "orderDate": "2025-03-28T15:29:02.453Z"
+  },
+  {
+    "fullName": "week",
+    "email": "legaciebeauty@gmail.com",
+    "phone": "1234",
+    "address": "123",
+    "age": "19",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "gelato",
+        "productName": "Gelato",
+        "price": 30,
+        "quantity": 10
+      }
+    ],
+    "totalAmount": 300,
+    "orderDate": "2025-03-28T15:30:40.047Z"
+  },
+  {
+    "fullName": "murimi",
+    "email": "iyonicfashion@gmail.com",
+    "phone": "1234",
+    "address": "1234",
+    "age": "22",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "og-kush",
+        "productName": "OG Kush",
+        "price": 25,
+        "quantity": 1
+      },
+      {
+        "productId": "blue-dream",
+        "productName": "Blue Dream",
+        "price": 22,
+        "quantity": 1
+      },
+      {
+        "productId": "granddaddy-purple",
+        "productName": "Granddaddy Purple",
+        "price": 28,
+        "quantity": 1
+      },
+      {
+        "productId": "sour-diesel",
+        "productName": "Sour Diesel",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "productId": "gelato",
+        "productName": "Gelato",
+        "price": 30,
+        "quantity": 1
+      },
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 2
+      }
+    ],
+    "totalAmount": 131,
+    "orderDate": "2025-03-28T15:33:56.165Z"
+  },
+  {
+    "fullName": "1234",
+    "email": "andreawellsin@gmail.com",
+    "phone": "1234",
+    "address": "qww",
+    "age": "19",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "Blunts",
+        "productName": "Blunts",
+        "price": 3,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 3,
+    "orderDate": "2025-03-28T15:35:33.698Z"
+  },
+  {
+    "fullName": "34yuio",
+    "email": "iyonicfashion@gmail.com",
+    "phone": "kn",
+    "address": "kjn",
+    "age": "765",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "og-kush",
+        "productName": "OG Kush",
+        "price": 25,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 25,
+    "orderDate": "2025-03-28T15:39:58.038Z"
+  },
+  {
+    "fullName": "12345678",
+    "email": "legaciebeauty@gmail.com",
+    "phone": "23456789",
+    "address": "456789",
+    "age": "3456",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "granddaddy-purple",
+        "productName": "Granddaddy Purple",
+        "price": 28,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 28,
+    "orderDate": "2025-03-28T16:10:34.117Z"
+  },
+  {
+    "fullName": "ead",
+    "email": "andrea@gmail.com",
+    "phone": "123e4",
+    "address": "wer",
+    "age": "22",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "blue-dream",
+        "productName": "Blue Dream",
+        "price": 22,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 22,
+    "orderDate": "2025-03-28T17:47:54.273Z"
+  },
+  {
+    "fullName": "dead!",
+    "email": "legaciebeauty@gmail.com",
+    "phone": "011",
+    "address": "123456",
+    "age": "33",
+    "paymentMethod": "Cash on Delivery",
+    "cart": [
+      {
+        "productId": "granddaddy-purple",
+        "productName": "Granddaddy Purple",
+        "price": 28,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 28,
+    "orderDate": "2025-03-28T18:00:37.102Z"
+  },
+  {
+    "fullName": "gg",
+    "email": "andrea@gmail.com",
+    "phone": "11",
+    "address": "11",
+    "age": "22",
+    "paymentMethod": "Cashapp on Delivery",
+    "cart": [
+      {
+        "productId": "og-kush",
+        "productName": "OG Kush",
+        "price": 25,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 25,
+    "orderDate": "2025-03-28T18:33:38.743Z"
+  }
+]

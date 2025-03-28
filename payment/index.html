@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | Weed Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-4xl p-8 bg-white shadow-lg rounded-lg">
+        <h2 class="text-3xl font-bold mb-6 text-center">💳 Checkout</h2>
+
+        <!-- Cart Items -->
+        <div id="cart-items" class="mb-6"></div>
+
+        <!-- User Details Form -->
+        <div class="space-y-4">
+            <input id="full-name" type="text" placeholder="Full Name" class="w-full p-2 border rounded">
+            <input id="email" type="email" placeholder="Email" class="w-full p-2 border rounded">
+            <input id="phone" type="tel" placeholder="Phone Number" class="w-full p-2 border rounded">
+            <input id="address" type="text" placeholder="Address" class="w-full p-2 border rounded">
+            <input id="age" type="number" placeholder="Age" class="w-full p-2 border rounded">
+
+            <h3 class="text-lg font-semibold">Select Payment Method</h3>
+            <div class="flex space-x-4">
+                <label class="flex items-center">
+                    <input type="radio" name="payment-method" value="Card on Delivery" class="mr-2"> Card on Delivery
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="payment-method" value="Cashapp on Delivery" class="mr-2"> Cashapp on Delivery
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="payment-method" value="Cash on Delivery" class="mr-2"> Cash on Delivery
+                </label>
+            </div>
+
+            <button onclick="processPayment()" class="w-full bg-green-600 text-white py-2 rounded">💰 Pay Now</button>
+        </div>
+    </div>
+
+    <!-- Thank You Popup -->
+    <div id="thank-you-popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg text-center">
+            <h3 class="text-2xl font-bold">🎉 Thank You for Your Order!</h3>
+            <p id="download-message" class="mt-2 text-gray-600">Processing your receipt...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            loadCart();
+        });
+
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartContainer = document.getElementById("cart-items");
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p class='text-gray-600 text-center py-4'>Your cart is empty! 🛒</p>";
+                return;
+            }
+
+            cartContainer.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center bg-gray-100 p-4 rounded">
+                    <p class="text-lg font-semibold">${item.productName}</p>
+                    <p>${item.quantity} x $${item.price.toFixed(2)}</p>
+                    <p class="font-bold">$${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+            `).join('');
+        }
+
+        function processPayment() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let fullName = document.getElementById("full-name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let phone = document.getElementById("phone").value.trim();
+            let address = document.getElementById("address").value.trim();
+            let age = document.getElementById("age").value;
+            let paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+
+            if (!fullName || !email || !phone || !address || !age || !paymentMethod) {
+                alert("Please fill in all required details.");
+                return;
+            }
+
+            if (parseInt(age) < 18) {
+                alert("You must be at least 18 years old to place an order.");
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let orderDetails = {
+                fullName,
+                email,
+                phone,
+                address,
+                age,
+                paymentMethod,
+                cart,
+                totalAmount: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                orderDate: new Date().toISOString()
+            };
+
+            // Send order to backend
+            fetch("http://localhost:5000/api/orders", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderDetails)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let popup = document.getElementById("thank-you-popup");
+                    popup.classList.remove("hidden");
+
+                    setTimeout(() => {
+                        let downloadMsg = document.getElementById("download-message");
+                        downloadMsg.textContent = "📥 Downloading Receipt...";
+
+                        downloadReceipt(orderDetails);
+                        localStorage.removeItem("cart");
+
+                        setTimeout(() => popup.classList.add("hidden"), 3000);
+                    }, 2000);
+                } else {
+                    alert("Error processing your order. Please try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function downloadReceipt(order) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Set background image (Replace with your actual image URL)
+    const backgroundImg = "https://i.imgur.com/toEZa0o.jpeg"; 
+
+    doc.addImage(backgroundImg, "JPEG", 0, 0, pageWidth, pageHeight);
+
+    // Brand Logo & Name
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.setTextColor(255, 255, 255);
+    doc.text("Weed Store", pageWidth / 2, 20, { align: "center" });
+
+    // Receipt Title
+    doc.setFontSize(18);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Order Receipt", pageWidth / 2, 35, { align: "center" });
+
+    // Customer Details
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+    doc.text(`Name: ${order.fullName}`, 10, 50);
+    doc.text(`Email: ${order.email}`, 10, 60);
+    doc.text(`Phone: ${order.phone}`, 10, 70);
+    doc.text(`Address: ${order.address}`, 10, 80);
+    doc.text(`Age: ${order.age}`, 10, 90);
+    doc.text(`Payment Method: ${order.paymentMethod}`, 10, 100);
+    doc.text(`Order Date: ${new Date(order.orderDate).toLocaleString()}`, 10, 110);
+
+    // Divider
+    doc.setDrawColor(0, 0, 0);
+    doc.line(10, 115, pageWidth - 10, 115);
+
+    // Order Items
+    let y = 125;
+    order.cart.forEach((item, index) => {
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 102, 204);
+        doc.text(`${index + 1}. ${item.productName}`, 10, y);
+        
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Quantity: ${item.quantity}`, 120, y);
+        doc.text(`Price: $${(item.price * item.quantity).toFixed(2)}`, 170, y);
+        y += 10;
+    });
+
+    // Total Amount
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(255, 0, 0);
+    doc.text(`Total: $${order.totalAmount.toFixed(2)}`, 10, y + 10);
+
+    // Footer
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(12);
+    doc.setTextColor(100, 100, 100);
+    doc.text("Thank you for shopping with us!", pageWidth / 2, pageHeight - 30, { align: "center" });
+    doc.text("Visit us: plugin.iyonicorp.com", pageWidth / 2, pageHeight - 20, { align: "center" });
+
+    // Save PDF
+    doc.save("receipt.pdf");
+}
+
+    </script>
+    
+</body>
+</html>

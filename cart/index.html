@@ -14,9 +14,19 @@
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const cartContainer = document.getElementById("cart-items");
       const cartTotal = document.getElementById("cart-total");
-      
+
       cartContainer.innerHTML = "";
       let total = 0;
+
+      // Map product IDs to images
+      const productImages = {
+        "og-kush": "https://images.leafly.com/flower-images/og-kush.png",
+        "blue-dream": "https://c8.alamy.com/comp/2FK66HP/close-up-of-flowering-cola-of-blue-dream-cannabis-strain-2FK66HP.jpg",
+        "granddaddy-purple": "https://theseedfair.com/wp-content/uploads/2017/05/xGranddaddy-Purple-rotated.jpeg.pagespeed.ic.lhVl3D0f5e.jpg",
+        "sour-diesel": "https://abidenapa.com/wp-content/uploads/2023/11/Abide-Napa-Sour-Diesel-Strain.png",
+        "Blunts": "https://pbs.twimg.com/media/DadqtVdW0AAMb2T.jpg",
+        "gelato": "https://alienlabs.org/cdn/shop/articles/AlienLabs-Gelato-41-Menu-BB.jpg?v=1696622253&width=600"
+      };
 
       if (cart.length === 0) {
         cartContainer.innerHTML = "<p class='text-gray-600 text-center py-4'>Your cart is empty! 🛒</p>";
@@ -28,7 +38,8 @@
         total += item.price * item.quantity;
         cartContainer.innerHTML += `
           <div class="flex items-center justify-between bg-white p-4 rounded-lg shadow-md">
-            <h3 class="text-lg font-semibold">${item.productName}</h3>
+            <img src="${productImages[item.productId] || 'https://via.placeholder.com/80'}" alt="${item.productName}" class="w-20 h-20 rounded-lg object-cover mr-4">
+            <h3 class="text-lg font-semibold flex-1">${item.productName}</h3>
             <p class="text-gray-600">$${item.price.toFixed(2)} / gram</p>
             <div class="flex items-center">
               <button onclick="updateQuantity(${index}, -1)" class="bg-gray-300 px-3 py-1 rounded-l-md">-</button>
@@ -69,7 +80,7 @@
       }
 
       let totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      window.location.href = `payment.html?total=${totalAmount.toFixed(2)}`;
+      window.location.href = `../payment?total=${totalAmount.toFixed(2)}`;
     }
   </script>
 </head>
@@ -91,11 +102,11 @@
 
     <!-- Buttons -->
     <div class="flex justify-between mt-6">
-      <a href="index.html" class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md font-semibold">
+      <a href="https://plugin.iyonicorp.com/" class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md font-semibold">
         ⬅️ Back to Shopping
       </a>
       <button onclick="proceedToPayment()" class="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-lg shadow-md font-semibold">
-        Proceed to Payment ➡️
+        Proceed to order ➡️
       </button>
     </div>
   </section>

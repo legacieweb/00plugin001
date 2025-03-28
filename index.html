@@ -10,20 +10,40 @@
         document.addEventListener("DOMContentLoaded", () => {
             updateCartBadge();
         });
-
         function addToCart(productId, productName, price) {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const existingItemIndex = cart.findIndex(item => item.productId === productId);
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItemIndex = cart.findIndex(item => item.productId === productId);
 
-            if (existingItemIndex !== -1) {
-                cart[existingItemIndex].quantity += 1;
-            } else {
-                cart.push({ productId, productName, price, quantity: 1 });
-            }
+    if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+    } else {
+        cart.push({ productId, productName, price, quantity: 1 });
+    }
 
-            localStorage.setItem("cart", JSON.stringify(cart));
-            updateCartBadge();
-        }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+    showNotification();
+}
+
+// Show Notification
+function showNotification() {
+    let popup = document.getElementById("cart-notification");
+    popup.classList.remove("translate-x-full", "opacity-0"); 
+    popup.classList.add("translate-x-0", "opacity-100");
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+        closeNotification();
+    }, 3000);
+}
+
+// Close Notification
+function closeNotification() {
+    let popup = document.getElementById("cart-notification");
+    popup.classList.remove("translate-x-0", "opacity-100");
+    popup.classList.add("translate-x-full", "opacity-0");
+}
+
 
         function updateCartBadge() {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -39,9 +59,9 @@
             <h1 class="text-3xl font-extrabold">Weed Store</h1>
             <nav>
                 <ul class="flex space-x-6 text-lg">
-                    <li><a href="products.html" class="hover:text-gray-300">Products</a></li>
+                    <li><a href="products/" class="hover:text-gray-300">Products</a></li>
                     <li>
-                        <a href="cart.html" class="hover:text-gray-300 relative">
+                        <a href="cart/" class="hover:text-gray-300 relative">
                             Cart <span id="cart-count" class="bg-red-500 text-white text-sm font-bold px-2 rounded-full">0</span>
                         </a>
                     </li>
@@ -55,7 +75,7 @@
         <div class="absolute inset-0 bg-green-900 bg-opacity-60 flex flex-col justify-center items-center text-white">
             <h2 class="text-5xl font-bold">Premium Cannabis Products</h2>
             <p class="text-xl mt-3">Shop the best quality weed online</p>
-            <a href="products.html" class="bg-green-500 hover:bg-green-400 px-8 py-3 mt-6 text-lg font-semibold rounded shadow-lg">Shop Now</a>
+            <a href="products/" class="bg-green-500 hover:bg-green-400 px-8 py-3 mt-6 text-lg font-semibold rounded shadow-lg">Shop Now</a>
         </div>
     </section>
 
@@ -96,7 +116,7 @@
 
             <!-- Sour Diesel -->
             <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
-                <img src="https://images.leafly.com/flower-images/sour-diesel.png" alt="Sour Diesel" class="w-full h-64 object-cover">
+                <img src="https://abidenapa.com/wp-content/uploads/2023/11/Abide-Napa-Sour-Diesel-Strain.png" alt="Sour Diesel" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-2xl font-bold text-gray-800">Sour Diesel</h3>
                     <p class="text-lg font-semibold text-green-600 mt-2">$20.00 / gram</p>
@@ -106,7 +126,7 @@
 
             <!-- Gelato -->
             <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
-                <img src="https://images.leafly.com/flower-images/gelato.png" alt="Gelato" class="w-full h-64 object-cover">
+                <img src="https://alienlabs.org/cdn/shop/articles/AlienLabs-Gelato-41-Menu-BB.jpg?v=1696622253&width=600" alt="Gelato" class="w-full h-64 object-cover">
                 <div class="p-6">
                     <h3 class="text-2xl font-bold text-gray-800">Gelato</h3>
                     <p class="text-lg font-semibold text-green-600 mt-2">$30.00 / gram</p>
@@ -114,12 +134,69 @@
                 </div>
             </div>
 
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105">
+                <img src="https://pbs.twimg.com/media/DadqtVdW0AAMb2T.jpg" alt="Gelato" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Blunts</h3>
+                    <p class="text-lg font-semibold text-green-600 mt-2">$3.00 / roll</p>
+                    <button onclick="addToCart('Blunts', 'Blunts', 3.00)" class="mt-3 w-full bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded">Add to Cart</button>
+                </div>
+            </div>
+
         </div>
     </section>
+    <!-- Notification Popup -->
+<div id="cart-notification" class="fixed bottom-10 right-10 bg-white shadow-lg rounded-lg p-4 w-80 transform translate-x-full opacity-0 transition-all duration-500 ease-in-out">
+    <p class="text-lg font-semibold">Product added to cart! 🛒</p>
+    <div class="flex justify-between mt-4">
+        <button onclick="closeNotification()" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded">Continue Shopping</button>
+        <a href="cart/" class="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded">Go to Cart</a>
+    </div>
+</div>
+<style>
+    .glitter-text {
+background: linear-gradient(45deg, #ffcc00, #ff66ff, #00ccff, #ffcc00);
+background-size: 400% 400%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: glitter 4s infinite;
+}
 
-    <!-- Footer -->
-    <footer class="bg-green-600 text-white text-center py-6">
-        <p class="text-lg">&copy; 2025 Weed Store. All rights reserved.</p>
-    </footer>
-</body>
+@keyframes glitter {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+/* Shaking Logo Animation */
+.shaking-logo {
+animation: shake 1s infinite ease-in-out;
+}
+
+@keyframes shake {
+0%, 100% { transform: rotate(0deg); }
+10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); }
+20%, 40%, 60%, 80% { transform: rotate(2deg); }
+}
+</style>
+
+
+<!-- Footer -->
+ <!-- Footer -->
+ <footer class="bg-green-600 text-white text-center py-3 fade-in">
+    <div class="container mx-auto flex flex-col items-center px-6">
+  
+        <!-- Copyright -->
+        <p class="text-gray-900 text-sm mt-2">© 2025 Weed store. All Rights Reserved.</p>
+  
+             <!-- Powered by Legacie with Shaking Logo -->
+             <div class="flex items-center space-x-2 mt-3">
+              <a href="https://iyonicweb.iyonicorp.com/">
+                <img src="https://iyonicweb.iyonicorp.com/download-removebg-preview.png" alt="Legacie Web Logo" class="h-10 md:h-12 shaking-logo">
+              </a>
+              <a href="https://iyonicweb.iyonicorp.com/" class="footer-link"> <span class="glitter-text">Designed by iyonic web</span></a>          </div>
+            </div>
+  
+    </div>
+  </footer>
 </html>

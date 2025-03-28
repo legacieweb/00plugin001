@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Weed Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+    <!-- PIN Entry Modal -->
+    <div id="pin-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+            <h2 class="text-xl font-bold mb-4">🔐 Enter Admin PIN</h2>
+            <input type="password" id="admin-pin" class="border px-4 py-2 w-full text-center rounded-lg" placeholder="Enter PIN">
+            <p id="pin-error" class="text-red-500 mt-2 hidden">❌ Incorrect PIN. Try again.</p>
+            <button onclick="validatePin()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Unlock</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="admin-panel" class="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg relative hidden">
+        <h2 class="text-3xl font-bold text-center">📋 Order Management</h2>
+
+        <!-- Notification Badge -->
+        <div id="notification" class="hidden fixed top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg">
+            🚨 New Order Received!
+        </div>
+
+        <div id="orders-list" class="mt-6 space-y-4"></div>
+    </div>
+
+    <script>
+        const socket = io("http://localhost:5000");
+
+        function validatePin() {
+            const pinInput = document.getElementById("admin-pin").value;
+            const pinError = document.getElementById("pin-error");
+
+            if (pinInput === "2823") {
+                document.getElementById("pin-modal").style.display = "none";
+                document.getElementById("admin-panel").classList.remove("hidden");
+                fetchOrders();
+            } else {
+                pinError.classList.remove("hidden");
+            }
+        }
+
+        function fetchOrders() {
+            fetch("http://localhost:5000/api/orders")
+                .then(response => response.json())
+                .then(orders => {
+                    const ordersList = document.getElementById("orders-list");
+                    ordersList.innerHTML = "";
+
+                    if (orders.length === 0) {
+                        ordersList.innerHTML = "<p class='text-gray-600 text-center'>No orders yet.</p>";
+                        return;
+                    }
+
+                    orders.reverse().forEach((order, index) => {
+                        let items = order.cart.map(item => `
+                            <li class="flex justify-between">
+                                <span>${item.productName} x${item.quantity}</span>
+                                <span class="font-bold">$${(item.price * item.quantity).toFixed(2)}</span>
+                            </li>`).join("");
+
+                        ordersList.innerHTML += `
+                            <div class="border p-5 rounded-lg shadow-md bg-gray-50 hover:bg-white transition duration-200">
+                                <h3 class="text-lg font-semibold text-gray-700">🛒 Order #${orders.length - index}</h3>
+                                <p class="text-gray-700"><strong>Name:</strong> ${order.fullName}</p>
+                                <p class="text-gray-700"><strong>Email:</strong> ${order.email}</p>
+                                <p class="text-gray-700"><strong>Phone:</strong> ${order.phone}</p>
+                                <p class="text-gray-700"><strong>Address:</strong> ${order.address}</p>
+                                <p class="text-gray-700"><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+                                
+                                <div class="mt-3 p-3 bg-white shadow-sm rounded-lg">
+                                    <h4 class="font-semibold text-gray-600">🛍 Items Ordered</h4>
+                                    <ul class="text-gray-700">${items}</ul>
+                                </div>
+
+                                <p class="text-green-600 font-bold mt-3 text-lg">Total: $${order.totalAmount.toFixed(2)}</p>
+                                <p class="text-gray-500 text-sm">📅 Ordered on: ${new Date(order.orderDate).toLocaleString()}</p>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(error => console.error("Error fetching orders:", error));
+        }
+
+        // Listen for new order notifications
+        socket.on("newOrder", (order) => {
+            const notification = document.getElementById("notification");
+            notification.classList.remove("hidden");
+
+            setTimeout(() => {
+                notification.classList.add("hidden");
+            }, 5000);
+
+            fetchOrders();
+        });
+    </script>
+</body>
+</html>

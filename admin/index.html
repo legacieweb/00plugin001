@@ -31,7 +31,7 @@
     </div>
 
     <script>
-        const socket = io("http://localhost:5000");
+        const socket = io("https://plugin-08r8.onrender.com");
 
         function validatePin() {
             const pinInput = document.getElementById("admin-pin").value;
@@ -47,7 +47,7 @@
         }
 
         function fetchOrders() {
-            fetch("http://localhost:5000/api/orders")
+            fetch("https://plugin-08r8.onrender.com/api/orders")
                 .then(response => response.json())
                 .then(orders => {
                     const ordersList = document.getElementById("orders-list");
